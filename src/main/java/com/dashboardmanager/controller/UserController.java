@@ -31,13 +31,16 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 @RestController
 public class UserController {
 
-    @Autowired
-    private UsersRepository usersRepository;
-
-    @Autowired
-    private SessionsRepository sessionsRepository;
+    private final UsersRepository usersRepository;
+    private final SessionsRepository sessionsRepository;
 
     private LRUFileCache fileCache = new LRUFileCache(100);
+
+    @Autowired
+    public UserController(UsersRepository usersRepository, SessionsRepository sessionsRepository) {
+        this.usersRepository = usersRepository;
+        this.sessionsRepository = sessionsRepository;
+    }
 
     @GetMapping("/")
     public RedirectView index(HttpServletRequest request) {
